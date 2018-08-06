@@ -2,20 +2,21 @@
   const imaginaryHost = `http://${location.hostname}:9000`;
   const container = document.getElementById("image");
 
-  function cropImage({ width, height, url }) {
-    const proxyUrl = `${imaginaryHost}/crop?width=${width}&height=${height}&gravity=smart&url=${url}`;
-    container.style.backgroundImage = `url('${proxyUrl}')`;
+  function getProxyUrl({ width, height, url }) {
+    return `${imaginaryHost}/crop?width=${width}&height=${height}&gravity=smart&url=${url}`;
   }
 
   function renderImage() {
     const url = new URL(window.location.href);
     const imageUrl = url.searchParams.get("url");
 
-    cropImage({
+    const proxyUrl = getProxyUrl({
       width: container.clientWidth,
       height: container.clientHeight,
       url: imageUrl
     });
+
+    container.style.backgroundImage = `url('${proxyUrl}')`;
   }
 
   renderImage();
